@@ -119,7 +119,7 @@ const Loading = () => (
         {/* Desktop/Tablet: scaled preview */}
         <div className="hidden sm:block aspect-[794/1123] overflow-hidden rounded-xl border border-white/20 bg-white/10 backdrop-blur-md shadow-xl">
           <Suspense fallback={<Loading />}>
-            <div className="relative w-full h-[1122px] overflow-hidden overflow-y-auto">
+            <div className="relative w-full h-[1122px] overflow-hidden ">
               <TemplateComponent />
             </div>
           </Suspense>
@@ -127,15 +127,15 @@ const Loading = () => (
           {/* Navigation Buttons */}
           <button
             onClick={prev}
-            className="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-gray-600 hover:bg-gray-700 cursor-pointer text-white rounded-full flex items-center justify-center z-50 backdrop-blur-sm"
+            className="absolute left-2 top-1/2 hidden -translate-y-1/2 w-10 h-10 bg-gray-600 hover:bg-gray-700 cursor-pointer text-white rounded-full flex items-center justify-center z-50 backdrop-blur-sm"
           >
-            <ChevronLeft className="w-6 h-6" />
+            <ChevronLeft className="w-6 h-6 " />
           </button>
           <button
             onClick={next}
-            className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-gray-600 hover:bg-gray-700 cursor-pointer text-white rounded-full flex items-center justify-center z-50 backdrop-blur-sm"
+            className="absolute right-2 top-1/2 hidden -translate-y-1/2 w-10 h-10 bg-gray-600 hover:bg-gray-700 cursor-pointer text-white rounded-full flex items-center justify-center z-50 backdrop-blur-sm"
           >
-            <ChevronRight className="w-6 h-6" />
+            <ChevronRight className="w-6 h-6 " />
           </button>
         </div>
 

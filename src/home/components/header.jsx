@@ -3,8 +3,17 @@ import { Menu, X, FileText } from "lucide-react";
 import { Macondo } from "next/font/google";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { IS_AUTHENTICATED } from "@/app/(main)/_routes/registration.routes";
+import { IS_AUTHENTICATED, LOGOUT } from "@/app/(main)/_routes/registration.routes";
 import Image from "next/image";
+import {ShowToast} from "@/app/(main)/_shared/show-toast"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const macondo = Macondo({
   subsets: ["latin"],
@@ -27,6 +36,18 @@ const Header = () => {
       console.log("Not authenticated", error);
     }
   };
+
+  const logOut = async() => {
+    try {
+      const res = await axios.get(LOGOUT);
+      if(res.data.success) {
+        ShowToast(true, res.data.message)
+        router.push("/auth")
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   useEffect(() => {
     isAuthenticated();
@@ -70,13 +91,23 @@ const Header = () => {
             {user ? (
               <>
                 <div className="flex items-center space-x-2">
-                  <Image
-                    src={user.profilePic}
-                    width={100}
-                    height={100}
-                    alt="Profile"
-                    className="w-8 h-8 rounded-full object-cover"
-                  />
+                  <DropdownMenu>
+                    <DropdownMenuTrigger className="cursor-pointer focus:outline-0">
+                      {" "}
+                      <Image
+                        src={user.profilePic}
+                        width={100}
+                        height={100}
+                        alt="Profile"
+                        className="w-8 h-8 rounded-full object-cover"
+                      />
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                      <DropdownMenuLabel>My Profile</DropdownMenuLabel>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem onClick={logOut}>Logout</DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                   <span className="text-gray-200 font-medium">{user.name}</span>
                 </div>
                 <button

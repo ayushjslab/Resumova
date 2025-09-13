@@ -22,6 +22,7 @@ const useResumeStore = create((set) => ({
       location: "",
       relocation: false,
     },
+    template: 1
   },
 
   setResume: (updater) =>

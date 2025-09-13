@@ -90,6 +90,11 @@ const ResumeSchema = new mongoose.Schema(
       location: String,
       relocation: Boolean,
     },
+
+    template: {
+      type: Number,
+      default: 1
+    }
   },
   { timestamps: true }
 );

@@ -24,7 +24,7 @@ const Footer = () => {
                 <FileText className="w-6 h-6 text-white" />
               </div>
               <span className="text-xl font-bold text-white tracking-tight">
-                ResumeBuilder Pro
+                Resumova
               </span>
             </div>
             <p className="text-gray-400 leading-relaxed mb-6">

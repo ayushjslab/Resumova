@@ -30,7 +30,7 @@ const TemplateForViews = [
 
 const TemplatesPage = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const { resume, setResume } = useResumeStore();
+  const { setResume } = useResumeStore();
 
   // ✅ only run once on mount
   useEffect(() => {

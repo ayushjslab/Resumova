@@ -158,7 +158,7 @@ export default function AuthForm() {
         cursor-pointer transition-all duration-500 
         hover:scale-105 hover:from-blue-300 hover:via-blue-500 hover:to-blue-800`}
             >
-              Resumate
+              Resumova
             </h1>
             <p className="text-gray-400 text-sm">
               To use Resumate you must log into an existing account or create

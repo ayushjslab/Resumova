@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import {  Suspense, useRef, useState, useMemo } from "react";
 import BasicDetailsForm from "./_components/ResumeForms/basic-details";
 import SocialLinksForm from "./_components/ResumeForms/social-links";
 import SummaryForm from "./_components/ResumeForms/summary";
@@ -19,15 +19,15 @@ import { PanelGroup, Panel, PanelResizeHandle } from "react-resizable-panels";
 import { useReactToPrint } from "react-to-print";
 import { FiDownload } from "react-icons/fi";
 import axios from "axios";
-import { TbTemplate } from "react-icons/tb";
 import {
   UPDATE_RESUME,
-  FETCH_RESUME,
 } from "@/app/(main)/_routes/create-resume.routes";
 import useResumeStore from "@/store/resumeStore";
 import { useParams } from "next/navigation";
 import { ShowToast } from "@/app/(main)/_shared/show-toast";
+import TemplatesDialog from "./_components/TemplatesDialog"
 import "./html.css";
+import getTemplateComponent from "./_components/getTemplates"
 const btnClass = clsx(
   "border py-2 px-4 rounded-lg flex items-center justify-center gap-1"
 );
@@ -39,26 +39,14 @@ export default function EditResumePage() {
   const [currentStep, setCurrentStep] = useState(1);
   const [isSaving, setIsSaving] = useState(false);
 
-  const { resume, setResume } = useResumeStore();
+  const { resume } = useResumeStore();
   const { resumeId } = useParams();
 
   const printref = useRef(null);
 
-  useEffect(() => {
-    async function fetchResume() {
-      try {
-        const res = await axios.get(FETCH_RESUME(resumeId));
-        if (res.data.success) {
-          setResume(res.data.resume);
-          ShowToast(true, res.data.message);
-        }
-      } catch (error) {
-        console.log(error);
-        ShowToast(false, error.response.data.message);
-      }
-    }
-    fetchResume();
-  }, []);
+  const TemplateComponent = useMemo(() => {
+    return getTemplateComponent(resume.template);
+  }, [resume.template]);
 
   // ✅ using contentRef for react-to-print
   const handlePrint = useReactToPrint({
@@ -216,14 +204,7 @@ export default function EditResumePage() {
             <div className="h-full flex flex-col">
               {/* ✅ Toolbar with Export button */}
               <div className="flex justify-end p-3 gap-5 border-b border-gray-300 bg-gray-200">
-                <button
-                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-500 to-blue-600 text-white font-medium shadow-md hover:from-indigo-600 hover:to-blue-700 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg active:scale-95"
-                  aria-label="Export PDF"
-                  onClick={handlePrint}
-                >
-                  <TbTemplate size={20} />
-                  Templates
-                </button>
+                <TemplatesDialog />
                 <button
                   className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-pink-500 to-red-600 text-white font-medium shadow-md hover:from-pink-600 hover:to-red-700 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg active:scale-95"
                   aria-label="Export PDF"
@@ -240,46 +221,84 @@ export default function EditResumePage() {
                 id="print-area"
                 ref={printref}
               >
-                <Template1 />
+                <Suspense fallback={<div>Loading...</div>}>
+                  <TemplateComponent />
+                </Suspense>
               </div>
             </div>
           </Panel>
         </PanelGroup>
       </div>
 
-      {/* Mobile (unchanged, but ensure its own scroll area) */}
+      {/* Mobile View */}
       <div className="block lg:hidden h-full overflow-y-auto">
-        <div className="bg-gradient-to-br from-gray-900 via-black to-gray-800 flex flex-col">
+        {/* Step Form Section */}
+        <div className="bg-gradient-to-br from-gray-900 via-black to-gray-800 flex flex-col min-h-screen">
+          {/* Form Step */}
           <div className="flex-1 overflow-y-auto p-4">{StepComponent}</div>
 
-          <div className="text-white flex items-center justify-between gap-3 px-3 mb-4">
+          {/* Navigation Buttons */}
+          <div className="sticky bottom-0 bg-black p-4 flex flex-col gap-3 border-t border-gray-700">
+            <div className="flex items-center justify-between gap-3 text-white">
+              <button
+                onClick={() => setCurrentStep((p) => Math.max(p - 1, 1))}
+                disabled={currentStep === 1}
+                className={`${btnClass} ${
+                  currentStep === 1 ? disabledClass : "cursor-pointer"
+                } w-full`}
+              >
+                <GrPrevious />
+                Previous
+              </button>
+              {currentStep < steps.length ? (
+                <button
+                  onClick={() =>
+                    setCurrentStep((p) => Math.min(p + 1, steps.length))
+                  }
+                  disabled={currentStep === steps.length}
+                  className={`${btnClass} ${
+                    currentStep === steps.length
+                      ? disabledClass
+                      : "cursor-pointer"
+                  } w-full`}
+                >
+                  Next
+                  <GrNext />
+                </button>
+              ) : (
+                <button
+                  onClick={handleSave}
+                  disabled={isSaving}
+                  className={`${btnClass} ${
+                    isSaving
+                      ? disabledClass
+                      : "cursor-pointer bg-gradient-to-r from-indigo-500 to-blue-600 text-white font-medium shadow-md hover:from-indigo-600 hover:to-blue-700"
+                  } w-full`}
+                >
+                  {isSaving ? "Saving..." : "Save"}
+                </button>
+              )}
+            </div>
+
+            <TemplatesDialog />
+            {/* PDF Export Button */}
             <button
-              onClick={() => setCurrentStep((p) => Math.max(p - 1, 1))}
-              disabled={currentStep === 1}
-              className={`${btnClass} ${
-                currentStep === 1 ? disabledClass : "cursor-pointer"
-              } w-full`}
+              onClick={handlePrint}
+              className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-pink-500 to-red-600 text-white font-medium shadow-md hover:from-pink-600 hover:to-red-700 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg active:scale-95 w-full"
             >
-              <GrPrevious />
-              Previous
-            </button>
-            <button
-              onClick={() =>
-                currentStep < steps.length && setCurrentStep(currentStep + 1)
-              }
-              disabled={currentStep === steps.length}
-              className={`${btnClass} ${
-                currentStep === steps.length ? disabledClass : "cursor-pointer"
-              } w-full`}
-            >
-              Next
-              <GrNext />
+              <FiDownload size={20} />
+              Export PDF
             </button>
           </div>
         </div>
 
-        <div className="p-4 min-h-screen overflow-y-auto">
-          <Template1 />
+        {/* Resume Preview Section */}
+        <div className="p-4 bg-white">
+          <div ref={printref}>
+            <Suspense fallback={<div>Loading preview...</div>}>
+              <TemplateComponent />
+            </Suspense>
+          </div>
         </div>
       </div>
     </div>
