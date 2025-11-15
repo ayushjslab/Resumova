@@ -32,14 +32,10 @@ const Sidebar = ({ activeTab, setActiveTab }) => {
     { icon: FilePlus, tab: "create", label: "Create Resume" },
     { icon: FileText, tab: "edit", label: "Edit Resume" },
     { icon: TbTemplate, tab: "templates", label: "Templates" },
-    { icon: CreditCard, tab: "billing", label: "Billing" },
     { icon: BarChart3, tab: "analytics", label: "Analytics" },
     { icon: Download, tab: "downloads", label: "Downloads" },
     { icon: Share2, tab: "shared", label: "Shared Links" },
   ];
-
-  const bottomItems = [{ icon: Settings, tab: "settings", label: "Settings" }];
-
   return (
     <div
       className={`fixed left-0 top-0 h-screen bg-gradient-to-b from-black via-blue-950/10 to-blue-950/30 backdrop-blur-sm border-r border-blue-800/40 text-white transition-all duration-300 ease-in-out z-50 rounded-r-2xl shadow-lg shadow-blue-900/30 ${
@@ -114,43 +110,6 @@ const Sidebar = ({ activeTab, setActiveTab }) => {
           })}
         </ul>
       </nav>
-
-      {/* Bottom Navigation */}
-      <div className="border-t border-blue-800/40 py-4">
-        <ul className="space-y-1 pl-3">
-          {bottomItems.map((item, index) => {
-            const Icon = item.icon;
-            const isActive = activeTab === item.tab;
-            return (
-              <li key={index}>
-                <button
-                  onClick={() => {
-                    setActiveTab(item.tab);
-                    router.push(`/dashboard/${item.tab}`);
-                  }}
-                  className={`flex items-center cursor-pointer space-x-3 px-3 py-3 rounded-l-lg w-full text-left focus:outline-none transition-all ${
-                    isActive
-                      ? "bg-gradient-to-r from-blue-600/30 to-blue-400/20 border-l-4 border-blue-400 text-blue-300"
-                      : "hover:bg-gradient-to-r from-blue-600/10 to-blue-400/10 text-gray-300 hover:text-blue-300"
-                  }`}
-                >
-                  <Icon
-                    size={20}
-                    className={`${isActive ? "text-blue-400" : ""}`}
-                  />
-                  <span
-                    className={`font-medium transition-all duration-300 ${
-                      isExpanded ? "opacity-100 w-auto" : "opacity-0 w-0"
-                    } overflow-hidden whitespace-nowrap`}
-                  >
-                    {item.label}
-                  </span>
-                </button>
-              </li>
-            );
-          })}
-        </ul>
-      </div>
     </div>
   );
 };

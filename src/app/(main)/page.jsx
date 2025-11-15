@@ -10,13 +10,12 @@ import Testimonials from "../../home/components/testimonial";
 import TermsService from "../../home/components/terms-service";
 import { ChevronUp } from "lucide-react";
 import { PT_Sans } from "next/font/google";
-import PricingCards from "@/home/components/pricing";
 import TemplateStack from "@/home/components/templateStack"
 const pt_sans = PT_Sans({
   subsets: ["latin"],
   weight: ["400", "700"],
   variable: "--font-inter",
-  display: "swap", // good for performance
+  display: "swap",
 });
 
 
@@ -47,9 +46,8 @@ const HomePage = () => {
         <Features />
         <TemplateStack/>
         <Testimonials />
-        <PricingCards/>
-        <CTA />
         <TermsService />
+        <CTA />
       </main>
 
       {/* Footer */}

@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import {
   Palette,
@@ -7,6 +9,7 @@ import {
   Lock,
   Smartphone,
 } from "lucide-react";
+import { motion } from "framer-motion";
 
 const features = [
   {
@@ -53,14 +56,34 @@ const features = [
   },
 ];
 
+// Motion Variants
+const fadeUp = {
+  hidden: { opacity: 0, y: 25 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: "easeOut" },
+  },
+};
+
+const stagger = {
+  hidden: {},
+  show: {
+    transition: { staggerChildren: 0.12 },
+  },
+};
+
 const Features = () => {
   return (
     <section id="features" className="relative py-24 bg-black overflow-hidden">
-     
-
-      <div className="relative z-10 max-w-7xl mx-auto px-6">
+      <motion.div
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.2 }}
+        className="relative z-10 max-w-7xl mx-auto px-6"
+      >
         {/* Section Header */}
-        <div className="text-center mb-20">
+        <motion.div variants={fadeUp} className="text-center mb-20">
           <h2 className="text-4xl md:text-6xl font-extrabold text-white mb-6 tracking-tight">
             Why Choose
             <span className="ml-3 bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-600 bg-clip-text text-transparent animate-text-shimmer">
@@ -72,14 +95,23 @@ const Features = () => {
             <span className="text-cyan-400">cutting-edge features</span> to help
             you land your dream job faster than ever.
           </p>
-        </div>
+        </motion.div>
 
         {/* Features Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+        <motion.div
+          variants={stagger}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"
+        >
           {features.map((feature, index) => (
-            <div
+            <motion.div
               key={index}
-              className="group relative bg-gradient-to-b from-gray-900/70 to-black/70 backdrop-blur-md border border-gray-800 rounded-2xl p-8 hover:scale-105 transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/30"
+              variants={fadeUp}
+              whileHover={{ scale: 1.05 }}
+              transition={{ type: "spring", stiffness: 200, damping: 15 }}
+              className="group relative backdrop-blur-md border border-gray-800 rounded-2xl p-8 hover:shadow-xl transition-all duration-300"
             >
               {/* Icon */}
               <div
@@ -100,21 +132,30 @@ const Features = () => {
               <div
                 className={`absolute inset-0 bg-gradient-to-r ${feature.color} opacity-0 group-hover:opacity-10 rounded-2xl blur-xl transition-opacity`}
               ></div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         {/* Stats Section */}
-        <div className="mt-24 grid grid-cols-2 md:grid-cols-4 gap-10 text-center">
+        <motion.div
+          variants={stagger}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+          className="mt-24 grid grid-cols-2 md:grid-cols-4 gap-10 text-center"
+        >
           {[
             { value: "100K+", label: "Resumes Created" },
             { value: "95%", label: "Success Rate" },
             { value: "50+", label: "Templates" },
             { value: "24/7", label: "Support" },
           ].map((stat, i) => (
-            <div
+            <motion.div
               key={i}
-              className="group hover:scale-105 transition-transform duration-300"
+              variants={fadeUp}
+              whileHover={{ scale: 1.07 }}
+              transition={{ type: "spring", stiffness: 200, damping: 15 }}
+              className="group transition-transform duration-300"
             >
               <div className="text-4xl md:text-5xl font-extrabold text-white mb-2 group-hover:text-cyan-400 transition-colors drop-shadow-md">
                 {stat.value}
@@ -122,10 +163,10 @@ const Features = () => {
               <div className="text-gray-400 group-hover:text-gray-300">
                 {stat.label}
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </section>
   );
 };

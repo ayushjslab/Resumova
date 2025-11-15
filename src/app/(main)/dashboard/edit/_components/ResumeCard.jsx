@@ -11,67 +11,90 @@ const ResumeCard = ({
   onChangeTemplate,
 }) => {
   return (
-    <div className="relative group">
-      {/* Card Container */}
-      <div className="w-80 h-56 relative overflow-hidden bg-gray-900/50 border border-gray-800 rounded-xl p-6 backdrop-blur-sm hover:border-blue-500/30 transition-all">
-        {/* Content */}
-        <div className="relative h-full flex flex-col justify-between p-6 z-10">
-          {/* Header Section */}
-          <div className="space-y-3">
-            <h2 className="text-xl font-bold leading-tight bg-gradient-to-r from-blue-200 via-blue-100 to-blue-300 bg-clip-text text-transparent drop-shadow-[0_0_8px_rgba(59,130,246,0.5)]">
-              {title}
-            </h2>
-            <p className="text-blue-300/90 text-sm font-medium tracking-wide filter drop-shadow-sm">
-              {jobTitle?.length > 0 ? jobTitle : "Untitled Position"}
-            </p>
-            <div className="px-4 py-2 w-fit mt-1 rounded-xl backdrop-blur-xl bg-gradient-to-r from-blue-500/10 via-blue-600/15 to-blue-500/10 border border-blue-400/30 text-blue-100 font-semibold text-sm shadow-lg shadow-blue-500/20 hover:shadow-blue-400/30 transition-all duration-300">
-              {firstName || "First"} {lastName || "Last"}
-            </div>
-          </div>
+    <div className="group relative w-80">
+      <div
+        className="
+        relative rounded-2xl overflow-hidden 
+        bg-black/60 backdrop-blur-xl 
+        border border-blue-500/20 
+        p-6 shadow-[0_8px_30px_rgba(0,0,0,0.45)]
+        transition-all duration-300 
+        hover:border-blue-400/40 hover:shadow-[0_8px_40px_rgba(59,130,246,0.25)]
+      "
+      >
+        {/* Blue Glow */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-transparent to-blue-700/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
 
-          {/* Decorative Elements */}
-          <div className="absolute top-6 right-6 w-20 h-20 rounded-full bg-gradient-to-br from-blue-400/20 via-blue-500/15 to-blue-600/10 blur-2xl animate-pulse pointer-events-none"></div>
-          <div className="absolute bottom-12 right-12 w-10 h-10 rounded-full bg-gradient-to-br from-blue-300/30 to-blue-500/20 blur-lg pointer-events-none"></div>
-          <div className="absolute top-16 left-16 w-6 h-6 rounded-full bg-blue-400/20 blur-md pointer-events-none"></div>
+        {/* Header */}
+        <div className="space-y-2">
+          <h2 className="text-xl font-semibold tracking-tight text-white">
+            {title}
+          </h2>
 
-          {/* Action Buttons */}
-          <div className="flex justify-between items-center mt-6 relative z-20">
-            <div className="flex space-x-3">
-              <button
-                onClick={onEdit}
-                className="group/btn flex items-center justify-center w-11 h-11 rounded-xl bg-gradient-to-br from-blue-500/20 to-blue-600/10 hover:from-blue-400/30 hover:to-blue-500/20 border border-blue-400/30 hover:border-blue-300/50 backdrop-blur-xl transition-all duration-300 hover:scale-110 active:scale-95 shadow-lg shadow-blue-500/10"
-              >
-                <Edit3 className="w-4 h-4 text-blue-300 group-hover/btn:text-blue-100 transition-colors duration-300 drop-shadow-sm" />
-              </button>
+          <p className="text-sm text-blue-300/90 font-medium">
+            {jobTitle?.length > 0 ? jobTitle : "Untitled Role"}
+          </p>
 
-              <button
-                onClick={onDelete}
-                className="group/btn flex items-center justify-center w-11 h-11 rounded-xl bg-gradient-to-br from-slate-700/20 to-slate-800/10 hover:from-slate-600/30 hover:to-slate-700/20 border border-slate-400/30 hover:border-slate-300/50 backdrop-blur-xl transition-all duration-300 hover:scale-110 active:scale-95 shadow-lg shadow-slate-500/10"
-              >
-                <Trash2 className="w-4 h-4 text-slate-300 group-hover/btn:text-slate-100 transition-colors duration-300 drop-shadow-sm" />
-              </button>
-
-              <button
-                onClick={onChangeTemplate}
-                className="group/btn flex items-center justify-center w-11 h-11 rounded-xl bg-gradient-to-br from-blue-600/20 to-blue-700/10 hover:from-blue-500/30 hover:to-blue-600/20 border border-blue-500/30 hover:border-blue-400/50 backdrop-blur-xl transition-all duration-300 hover:scale-110 active:scale-95 shadow-lg shadow-blue-600/10"
-              >
-                <Palette className="w-4 h-4 text-blue-400 group-hover/btn:text-blue-200 transition-colors duration-300 drop-shadow-sm" />
-              </button>
-            </div>
-
-            {/* Status Indicator */}
-            <div className="flex items-center space-x-2 px-3 py-1 rounded-lg bg-gradient-to-r from-blue-500/10 to-blue-600/10 backdrop-blur-sm border border-blue-400/20">
-              <div className="w-2 h-2 rounded-full bg-blue-400 shadow-lg shadow-blue-400/50 animate-pulse"></div>
-              <span className="text-xs text-blue-200/80 font-medium">
-                Active
-              </span>
-            </div>
+          <div
+            className="
+            inline-flex items-center 
+            px-4 py-1.5 rounded-xl 
+            bg-blue-950/40 border border-blue-800/50
+            text-blue-100 font-medium text-sm
+          "
+          >
+            {firstName || "First"} {lastName || "Last"}
           </div>
         </div>
 
-        {/* Hover Glow */}
-        <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-blue-400/0 via-transparent to-blue-600/0 opacity-0 group-hover:opacity-100 group-hover:from-blue-400/15 group-hover:to-blue-600/15 pointer-events-none transition-all duration-500"></div>
-        <div className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-white/10 to-transparent rounded-t-3xl opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-500"></div>
+        {/* Actions */}
+        <div className="flex justify-between items-center mt-6">
+          <div className="flex gap-3">
+            <button
+              onClick={onEdit}
+              className="
+              w-10 h-10 flex items-center justify-center 
+              rounded-xl border border-blue-600/20 
+              bg-blue-900/20 
+              hover:border-blue-400/40 hover:bg-blue-900/30
+              transition-all duration-200 hover:scale-110 active:scale-95
+            "
+            >
+              <Edit3 className="w-4 h-4 text-blue-200" />
+            </button>
+
+            <button
+              onClick={onDelete}
+              className="
+              w-10 h-10 flex items-center justify-center 
+              rounded-xl border border-blue-600/20 
+              bg-blue-900/20 
+              hover:border-red-400/40 hover:bg-blue-900/30
+              transition-all duration-200 hover:scale-110 active:scale-95
+            "
+            >
+              <Trash2 className="w-4 h-4 text-red-300" />
+            </button>
+
+            <button
+              onClick={onChangeTemplate}
+              className="
+              w-10 h-10 flex items-center justify-center 
+              rounded-xl border border-blue-600/20 
+              bg-blue-900/20 
+              hover:border-blue-300/40 hover:bg-blue-900/30
+              transition-all duration-200 hover:scale-110 active:scale-95
+            "
+            >
+              <Palette className="w-4 h-4 text-blue-200" />
+            </button>
+          </div>
+
+          <div className="flex items-center gap-2 px-3 py-1 rounded-lg bg-blue-950/40 border border-blue-800/40">
+            <div className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
+            <span className="text-xs text-blue-200">Active</span>
+          </div>
+        </div>
       </div>
     </div>
   );

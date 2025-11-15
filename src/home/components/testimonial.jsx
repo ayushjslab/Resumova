@@ -1,5 +1,6 @@
 import React from "react";
 import { Star, Quote } from "lucide-react";
+import { motion } from "framer-motion";
 
 const testimonials = [
   {
@@ -58,16 +59,29 @@ const testimonials = [
   },
 ];
 
+const cardVariants = {
+  hidden: { opacity: 0, y: 40 },
+  visible: (i) => ({
+    opacity: 1,
+    y: 0,
+    transition: { delay: i * 0.15, duration: 0.6, ease: "easeOut" },
+  }),
+};
+
 const Testimonials = () => {
   return (
     <section className="py-20 bg-black relative overflow-hidden">
-      {/* Background Effects */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl"></div>
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl"></div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <div className="text-center mb-16">
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          viewport={{ once: true }}
+          className="text-center mb-16"
+        >
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
             What Our
             <span className="bg-gradient-to-r from-blue-400 to-blue-400 bg-clip-text text-transparent ml-3">
@@ -78,32 +92,29 @@ const Testimonials = () => {
             Join thousands of professionals who have transformed their careers
             with our platform.
           </p>
-        </div>
+        </motion.div>
 
-        {/* Testimonials Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {testimonials.map((testimonial, index) => (
-            <div
+            <motion.div
               key={index}
+              custom={index}
+              variants={cardVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-50px" }}
               className="group relative bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl p-8 hover:bg-gray-900/70 transition-all duration-300 hover:scale-105 hover:shadow-2xl"
             >
-              {/* Quote Icon */}
               <div className="absolute top-6 right-6 opacity-20 group-hover:opacity-30 transition-opacity">
                 <Quote className="w-8 h-8 text-blue-400" />
               </div>
 
-              {/* Rating */}
               <div className="flex space-x-1 mb-6">
                 {[1, 2, 3, 4, 5].map((starIndex) => {
                   const ratingValue = testimonial.rating;
-
-                  let starType = "empty"; // default
-
-                  if (ratingValue >= starIndex) {
-                    starType = "full";
-                  } else if (ratingValue >= starIndex - 0.5) {
-                    starType = "half";
-                  }
+                  let starType = "empty";
+                  if (ratingValue >= starIndex) starType = "full";
+                  else if (ratingValue >= starIndex - 0.5) starType = "half";
 
                   return (
                     <span key={starIndex}>
@@ -121,12 +132,10 @@ const Testimonials = () => {
                 })}
               </div>
 
-              {/* Content */}
               <p className="text-gray-300 text-lg leading-relaxed mb-8">
                 "{testimonial.content}"
               </p>
 
-              {/* Author */}
               <div className="flex items-center space-x-4">
                 <img
                   src={testimonial.avatar}
@@ -143,9 +152,8 @@ const Testimonials = () => {
                 </div>
               </div>
 
-              {/* Hover Effect */}
               <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-blue-500/5 opacity-0 group-hover:opacity-100 rounded-2xl transition-opacity"></div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
